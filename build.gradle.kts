@@ -1,19 +1,27 @@
 plugins {
     id("java")
+    id("maven-publish")
 }
 
 group = "cn.numeron"
 version = "1.0-SNAPSHOT"
 
 repositories {
+
     mavenCentral()
 }
 
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+    compileOnly("org.jetbrains:annotations:13.0")
 }
 
-tasks.getByName<Test>("test") {
-    useJUnitPlatform()
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "cn.numeron"
+            artifactId = "diff-util"
+            version = "1.2.1"
+            from(components["java"])
+        }
+    }
 }

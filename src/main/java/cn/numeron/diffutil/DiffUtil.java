@@ -1,4 +1,4 @@
-package cn.numeron.diff;
+package cn.numeron.diffutil;
 
 /*
  * Copyright 2018 The Android Open Source Project
@@ -19,21 +19,14 @@ package cn.numeron.diff;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class DiffUtil {
     private DiffUtil() {
         // utility class, no instance.
     }
 
-    private static final Comparator<Diagonal> DIAGONAL_COMPARATOR = (o1, o2) -> o1.x - o2.x;
+    private static final Comparator<Diagonal> DIAGONAL_COMPARATOR = Comparator.comparingInt(o -> o.x);
 
     // Myers' algorithm uses two lists as axis labels. In DiffUtil's implementation, `x` axis is
     // used for old list and `y` axis is used for new list.
@@ -116,7 +109,7 @@ public class DiffUtil {
 
         }
         // sort snakes
-        Collections.sort(diagonals, DIAGONAL_COMPARATOR);
+        diagonals.sort(DIAGONAL_COMPARATOR);
 
         return new DiffResult(cb, diagonals,
                 forward.backingData(), backward.backingData(),
